@@ -1,3 +1,4 @@
+![Playwright Python Tests](https://github.com/mscottcomp-commits/senior-qa-ecommerce-playwright-framework/actions/workflows/playwright-tests.yml/badge.svg)
 \# Senior QA E-Commerce Automation Framework
 
 
