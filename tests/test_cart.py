@@ -1,14 +1,15 @@
 from helpers.auth_helpers import login
-from helpers.cart_helpers import open_cart
 from pages.products_page import ProductsPage
+from pages.cart_page import CartPage
 
 
 def test_user_can_add_product_to_cart(page):
     # Log in with valid credentials
     login(page)
 
-    # Create products page object
+    # Create page objects
     products_page = ProductsPage(page)
+    cart_page = CartPage(page)
 
     # Add backpack to cart
     products_page.add_backpack_to_cart()
@@ -17,7 +18,7 @@ def test_user_can_add_product_to_cart(page):
     assert products_page.get_cart_badge_count() == "1"
 
     # Open the cart
-    open_cart(page)
+    cart_page.open_cart()
 
     # Verify the correct product is in the cart
-    assert page.locator(".inventory_item_name").inner_text() == "Sauce Labs Backpack"
+    assert cart_page.get_cart_item_name() == "Sauce Labs Backpack"
