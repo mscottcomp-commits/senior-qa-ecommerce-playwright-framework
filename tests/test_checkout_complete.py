@@ -1,7 +1,7 @@
 from helpers.auth_helpers import login
 from pages.products_page import ProductsPage
 from pages.cart_page import CartPage
-from helpers.checkout_helpers import start_checkout, fill_checkout_information, continue_checkout
+from pages.checkout_page import CheckoutPage
 
 
 def test_user_can_complete_checkout(page):
@@ -11,31 +11,32 @@ def test_user_can_complete_checkout(page):
     # Create page objects
     products_page = ProductsPage(page)
     cart_page = CartPage(page)
+    checkout_page = CheckoutPage(page)
 
     # Add backpack to cart and open cart
     products_page.add_backpack_to_cart()
     cart_page.open_cart()
 
     # Start checkout
-    start_checkout(page)
+    checkout_page.start_checkout()
 
     # Fill out checkout information
-    fill_checkout_information(page)
+    checkout_page.fill_checkout_information()
 
     # Continue to checkout overview
-    continue_checkout(page)
+    checkout_page.continue_checkout()
 
     # Verify checkout overview page loaded
-    assert page.locator(".title").inner_text() == "Checkout: Overview"
+    assert checkout_page.get_page_title() == "Checkout: Overview"
 
     # Verify product is still listed before completing order
-    assert page.locator(".inventory_item_name").inner_text() == "Sauce Labs Backpack"
+    assert checkout_page.get_item_name() == "Sauce Labs Backpack"
 
     # Finish checkout
-    page.click("#finish")
+    checkout_page.finish_checkout()
 
     # Verify order confirmation page loaded
-    assert page.locator(".title").inner_text() == "Checkout: Complete!"
+    assert checkout_page.get_page_title() == "Checkout: Complete!"
 
     # Verify confirmation message appears
-    assert page.locator(".complete-header").inner_text() == "Thank you for your order!"
+    assert checkout_page.get_complete_header() == "Thank you for your order!"
