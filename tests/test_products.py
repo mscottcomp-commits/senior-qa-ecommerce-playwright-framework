@@ -1,15 +1,16 @@
 from helpers.auth_helpers import login
+from pages.products_page import ProductsPage
 
 
 def test_products_page_displays_inventory_items(page):
     # Log in with valid credentials
     login(page)
 
-    # Verify we are on the Products page
-    assert page.locator(".title").inner_text() == "Products"
+    # Create products page object
+    products_page = ProductsPage(page)
 
-    # Verify product items are displayed
-    inventory_items = page.locator(".inventory_item")
+    # Verify we are on the Products page
+    assert products_page.get_page_title() == "Products"
 
     # Confirm at least one product appears
-    assert inventory_items.count() > 0
+    assert products_page.get_inventory_count() > 0
